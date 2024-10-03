@@ -2,20 +2,25 @@ import openai
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import time
 
+from secrets import OPENAI_KEY
+
 # OpenAI API configuration
-openai.api_key = 'YOUR_OPENAI_API_KEY'
+openai.api_key = OPENAI_KEY
+
 
 def generate_poem():
-    prompt = "Compose an original Irish poem."
+    prompt = "Compose an original Irish poem, encouraging one's friends to get a pint with them at 9pm this evening."
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
-        max_tokens=150
+        max_tokens=200
     )
     poem = response.choices[0].message['content'].strip()
     return poem
+
 
 def send_whatsapp_message(poem):
     # Configure Selenium WebDriver (use Chrome in this example)
@@ -28,7 +33,7 @@ def send_whatsapp_message(poem):
     time.sleep(15)  # Wait for WhatsApp Web to load
 
     # Find the channel or group
-    channel_name = 'Your Channel Name'
+    channel_name = 'oisin English number'
     search_box = driver.find_element(By.XPATH, '//div[@contenteditable="true"][@data-tab="3"]')
     search_box.click()
     search_box.send_keys(channel_name)
@@ -45,6 +50,8 @@ def send_whatsapp_message(poem):
     time.sleep(5)
     driver.quit()
 
+
 if __name__ == "__main__":
-    poem = generate_poem()
+    # poem = generate_poem()
+    poem = "hello (ignore this)"
     send_whatsapp_message(poem)
