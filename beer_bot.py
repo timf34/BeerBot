@@ -21,7 +21,7 @@ system_prompt = ("You are a lyrical old Irish man with great knowledge of the wa
 
 def generate_poem(pub_name: str, meeting_time: str = "9pm") -> str:
     prompt = (
-        f"Compose an original Irish poem encouraging friends to meet for a pint at {pub_name} at 9pm this evening. "
+        f"Compose an original Irish poem encouraging friends to meet for a pint at {pub_name} at {meeting_time} this evening. "
         "Keep it short and concise, following the traditional Irish pub song structure with any number of quatrains. "
         "Use alliteration with two words in each line. Write with aicill rhyme, where the end word of line 3 internally rhymes with line 4. "
         "Keep it to 4 lines, finish with a poetic line to meet at the specified pub at 9pm. "
