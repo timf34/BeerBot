@@ -1,6 +1,5 @@
 import random
 import requests
-import socket
 import time
 from openai import OpenAI
 from secrets import OPENAI_KEY
