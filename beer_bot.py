@@ -34,7 +34,7 @@ def generate_poem(pub_name: str, meeting_time: str = "9pm") -> str:
             response = client.chat.completions.create(
                 model=MODEL,
                 messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=150,
