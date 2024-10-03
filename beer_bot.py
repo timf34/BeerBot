@@ -2,18 +2,9 @@ import random
 import requests
 import time
 from openai import OpenAI
-from config import OPENAI_KEY, INDIVIDUAL_RECIPIENT_PHONE_NUMBER, WHATSAPP_GROUPCHAT_GROUP_ID, MEETING_TIME, MODEL
+from config import OPENAI_KEY, INDIVIDUAL_RECIPIENT_PHONE_NUMBER, WHATSAPP_GROUPCHAT_GROUP_ID, MEETING_TIME, MODEL, CANDIDATE_PUBS
 
 client = OpenAI(api_key=OPENAI_KEY)
-
-
-# List of candidate pubs
-candidate_pubs = [
-    "Chaplins Pub",
-    "Doyles",
-    "The Pav",
-    "O'Regan's",
-]
 
 system_prompt = ("You are a lyrical old Irish man with great knowledge of the ways of the pint, and keen to poetically encourage"
                  "students out for pints, naming a specific pub and a specific time")
