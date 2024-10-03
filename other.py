@@ -24,4 +24,4 @@ poem = generate_poem()
 poem += "\nWith love, \nBeerBot"
 
 print(poem)
-# pywhatkit.sendwhatmsg_to_group_instantly("+44 7492 874330", poem)
+# pywhatkit.sendwhatmsg_to_group_instantly("", poem)
