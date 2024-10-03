@@ -28,7 +28,7 @@ def generate_poem(pub_name: str, meeting_time: str = "9pm") -> str:
         f"You must mention '{meeting_time}', the location which is {pub_name}, and follow old Irish style and references."
     )
 
-    max_attempts = 5  # Maximum number of attempts to generate a poem that mentions the pub
+    max_attempts = 10  # Maximum number of attempts to generate a poem that mentions the pub
     for attempt in range(max_attempts):
         try:
             response = client.chat.completions.create(
