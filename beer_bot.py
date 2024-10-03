@@ -10,6 +10,8 @@ client = OpenAI(api_key=OPENAI_KEY)
 specific_contact = "+353834551238"
 specific_group_id = "JKjj0IEW4pLK87sBj53jBY"  # Group ID is found from the invite link of the group chat
 
+meeting_time = "9pm"
+
 # List of candidate pubs
 candidate_pubs = [
     "Chaplins Pub",
@@ -22,7 +24,7 @@ system_prompt = ("You are a lyrical old Irish man with great knowledge of the wa
                  "students out for pints, naming a specific pub and a specific time")
 
 
-def generate_poem(pub_name: str):
+def generate_poem(pub_name: str, meeting_time: str = "9pm") -> str:
     prompt = (
         f"Compose an original Irish poem encouraging friends to meet for a pint at {pub_name} at 9pm this evening. "
         "Keep it short and concise, following the traditional Irish pub song structure with any number of quatrains. "
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     if wait_for_internet_connection():
         import pywhatkit
         selected_pub = random.choice(candidate_pubs)
-        poem = generate_poem(selected_pub)
+        poem = generate_poem(selected_pub, meeting_time)
         send_poem(poem, recipient_type='individual')
     else:
         print("No internet connection:') Find a way to get users attention respectfully")
