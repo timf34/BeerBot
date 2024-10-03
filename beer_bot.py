@@ -86,7 +86,7 @@ def wait_for_internet_connection(max_retries=60, delay=5):
 if __name__ == "__main__":
     if wait_for_internet_connection():
         import pywhatkit
-        selected_pub = random.choice(candidate_pubs)
+        selected_pub = random.choice(CANDIDATE_PUBS)
         poem = generate_poem(selected_pub, MEETING_TIME)
         send_poem(poem, recipient_type='individual')
     else:
