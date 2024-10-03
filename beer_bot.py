@@ -2,14 +2,10 @@ import random
 import requests
 import time
 from openai import OpenAI
-from secrets import OPENAI_KEY
+from config import OPENAI_KEY, INDIVIDUAL_RECIPIENT_PHONE_NUMBER, WHATSAPP_GROUPCHAT_GROUP_ID, MEETING_TIME, MODEL
 
 client = OpenAI(api_key=OPENAI_KEY)
 
-specific_contact = "+353834551238"
-specific_group_id = "JKjj0IEW4pLK87sBj53jBY"  # Group ID is found from the invite link of the group chat
-
-meeting_time = "9pm"
 
 # List of candidate pubs
 candidate_pubs = [
@@ -29,14 +25,14 @@ def generate_poem(pub_name: str, meeting_time: str = "9pm") -> str:
         "Keep it short and concise, following the traditional Irish pub song structure with any number of quatrains. "
         "Use alliteration with two words in each line. Write with aicill rhyme, where the end word of line 3 internally rhymes with line 4. "
         "Keep it to 4 lines, finish with a poetic line to meet at the specified pub at 9pm. "
-        f"You must mention '9pm', the location which is {pub_name}, and follow old Irish style and references."
+        f"You must mention '{meeting_time}', the location which is {pub_name}, and follow old Irish style and references."
     )
 
     max_attempts = 5  # Maximum number of attempts to generate a poem that mentions the pub
     for attempt in range(max_attempts):
         try:
             response = client.chat.completions.create(
-                model="gpt-4o",  # Use "gpt-4" or "gpt-3.5-turbo" based on your access
+                model=MODEL,
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
@@ -65,9 +61,9 @@ def send_poem(poem: str, recipient_type: str ='individual') -> None:
     print(f"Sending poem:\n{poem}")
     try:
         if recipient_type == 'group':
-            pywhatkit.sendwhatmsg_to_group_instantly(specific_group_id, poem, wait_time=5, tab_close=True, close_time=3)
+            pywhatkit.sendwhatmsg_to_group_instantly(WHATSAPP_GROUPCHAT_GROUP_ID, poem, wait_time=5, tab_close=True, close_time=3)
         else:
-            pywhatkit.sendwhatmsg_instantly(specific_contact, poem, wait_time=5, tab_close=True, close_time=3)
+            pywhatkit.sendwhatmsg_instantly(INDIVIDUAL_RECIPIENT_PHONE_NUMBER, poem, wait_time=5, tab_close=True, close_time=3)
         print("Message sent successfully!")
     except Exception as e:
         print(f"Error sending message: {e}")
@@ -100,7 +96,7 @@ if __name__ == "__main__":
     if wait_for_internet_connection():
         import pywhatkit
         selected_pub = random.choice(candidate_pubs)
-        poem = generate_poem(selected_pub, meeting_time)
+        poem = generate_poem(selected_pub, MEETING_TIME)
         send_poem(poem, recipient_type='individual')
     else:
         print("No internet connection:') Find a way to get users attention respectfully")
