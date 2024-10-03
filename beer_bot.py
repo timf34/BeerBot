@@ -88,6 +88,6 @@ if __name__ == "__main__":
         import pywhatkit
         selected_pub = random.choice(CANDIDATE_PUBS)
         poem = generate_poem(selected_pub, MEETING_TIME)
-        send_poem(poem, recipient_type='group')
+        send_poem(poem, recipient_type='group')  # Specify 'individual' or 'group' as the recipient_type
     else:
         print("No internet connection:') Find a way to get users attention respectfully")
