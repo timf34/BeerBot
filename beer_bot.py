@@ -1,5 +1,6 @@
-import pywhatkit
 import random
+import requests
+import socket
 import time
 from openai import OpenAI
 from secrets import OPENAI_KEY
@@ -21,7 +22,7 @@ system_prompt = ("You are a lyrical old Irish man with great knowledge of the wa
                  "students out for pints, naming a specific pub and a specific time")
 
 
-def generate_poem(pub_name):
+def generate_poem(pub_name: str):
     prompt = (
         f"Compose an original Irish poem encouraging friends to meet for a pint at {pub_name} at 9pm this evening. "
         "Keep it short and concise, following the traditional Irish pub song structure with any number of quatrains. "
@@ -71,7 +72,34 @@ def send_poem(poem: str, recipient_type: str ='individual') -> None:
         print(f"Error sending message: {e}")
 
 
+def is_internet_available(test_url="https://www.google.com", timeout=5):
+    try:
+        requests.get(test_url, timeout=timeout)
+        return True
+    except requests.ConnectionError:
+        return False
+
+
+def wait_for_internet_connection(max_retries=60, delay=5):
+    retries = 0
+    while retries < max_retries:
+        if is_internet_available():
+            print("Internet connection established!")
+            return True
+        else:
+            print(f"No internet connection. Retrying in {delay} seconds... (Attempt {retries + 1}/{max_retries})")
+            time.sleep(delay)
+            retries += 1
+
+    print("Max retries reached. Unable to establish a stable internet connection.")
+    return False
+
+
 if __name__ == "__main__":
-    selected_pub = random.choice(candidate_pubs)
-    poem = generate_poem(selected_pub)
-    send_poem(poem, recipient_type='individual')
+    if wait_for_internet_connection():
+        import pywhatkit
+        selected_pub = random.choice(candidate_pubs)
+        poem = generate_poem(selected_pub)
+        send_poem(poem, recipient_type='individual')
+    else:
+        print("No internet connection:') Find a way to get users attention respectfully")
